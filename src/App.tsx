@@ -1,19 +1,54 @@
-import { MapContainer } from './Components';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { useEffect, useState } from 'react';
+import { Movies } from './Components';
+import { ninjasKey, imbdKey } from './auth';
+import './App.css';
 
-function App(this: any) {
+export default function App() {
+  const [place, setPlace] = useState('Nairobi');
+  const [isLoading, setIsLoading] = useState(false);
+  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
 
-  console.log(Map)
+  // const GetLocation = async () => {
+  //   // if we were already searching for a location, don't do it again
+  //   if (isLoading) return;
+
+  //   // set the loading state to true
+  //   setIsLoading(true);
+  //   const locationData = await fetch(
+  //     `https://api.api-ninjas.com/v1/city?name=${place}`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'X-Api-Key': ninjasKey
+  //       }
+  //     }
+  //   );
+
+  //   const dataJson = await locationData.json();
+
+  //   setCoordinates({
+  //     lat: dataJson[0]?.latitude,
+  //     lng: dataJson[0]?.longitude
+  //   });
+
+  //   const movieData = await fetch(
+  //     `https://imdb-api.com/API/AdvancedSearch/${imbdKey}?locations=${place}`
+  //   );
+  //   const movieDataJson = await movieData.json();
+  //   console.log(movieDataJson);
+  //   setIsLoading(false);
+  // };
+
+  // useEffect(() => {
+  //   GetLocation();
+  // }, []);
+
+  console.log(place);
+
   return (
-    <Map
-      google={this?.props?.google}
-      style={{ width: '100%', height: '100%', position: 'relative' }}
-      //zoom={14}  
-      initialCenter={{ lat: 47.444, lng: -122.176 }}
-    />
+    <div className='App'>
+      <Movies coordinates={coordinates} place={place} />
+      {/* <Welcome setPlace={setPlace} /> */}
+    </div>
   );
 }
-
-export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDmTkkVZ-ELq-_zksOUdZNBc-BxTo19rsI'
-})(App);
