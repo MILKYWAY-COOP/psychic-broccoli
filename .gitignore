@@ -9,6 +9,8 @@
 # production
 /build
 
+/auth.ts
+
 # misc
 .DS_Store
 .env.local
