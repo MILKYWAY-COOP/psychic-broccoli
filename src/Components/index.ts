@@ -1,1 +1,1 @@
-export { default as MapContainer } from './Map';
+export { default as Movies } from './Movies';
