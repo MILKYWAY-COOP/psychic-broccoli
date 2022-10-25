@@ -22,12 +22,11 @@ export default function MapComponent({ coordinates }: MapProps) {
 
 function Map({ coordinates }: MapProps) {
   const { lat, lng } = coordinates;
-  console.log(lat, lng);
   const center = useMemo(() => ({ lng: lng, lat: lat }), []);
   return (
     <MapContainer>
       <GoogleMap
-        zoom={15}
+        zoom={10}
         center={center}
         mapContainerClassName='map-container'
       >
