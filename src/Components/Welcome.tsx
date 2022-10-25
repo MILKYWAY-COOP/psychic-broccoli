@@ -29,7 +29,7 @@ export const Welcome = ({
     } else {
       errorRef.current.classList.remove('show');
     }
-  }, [isError]);
+  }, [isError, isLoading]);
 
   return (
     <WelcomeContainer>
