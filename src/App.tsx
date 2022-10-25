@@ -52,7 +52,7 @@ export default function App() {
       setLoaded(true);
     };
     getInfo();
-  }, [place]);
+  }, [place, isLoading]);
 
   if (isLoading && loaded === false) {
     return <Loading />;
