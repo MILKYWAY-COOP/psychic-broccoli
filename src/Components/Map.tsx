@@ -12,7 +12,7 @@ interface MapProps {
 }
 
 export default function MapComponent({ coordinates }: MapProps) {
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: googleKey
   });
 
@@ -22,7 +22,7 @@ export default function MapComponent({ coordinates }: MapProps) {
 
 function Map({ coordinates }: MapProps) {
   const { lat, lng } = coordinates;
-  const center = useMemo(() => ({ lng: lng, lat: lat }), []);
+  const center = useMemo(() => ({ lng: lng, lat: lat }), [lat, lng]);
   return (
     <MapContainer>
       <GoogleMap
