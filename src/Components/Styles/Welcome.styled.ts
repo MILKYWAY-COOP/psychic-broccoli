@@ -9,6 +9,45 @@ export const WelcomeContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  .errorDiv {
+    top: -110px;
+    width: 300px;
+    position: absolute;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(255, 253, 208);
+    border-radius: 10px;
+    transition: transform 0.5s ease-in-out;
+    /* transform: translateY(110%); */
+    
+    .info {
+      padding-left: 5px;
+      border-left: 5px solid red;
+      border-radius: 3px;
+      
+      h5 {
+        color: #800000;
+        font-size: 16px;
+        font-weight: 900;
+      }
+      
+      p {
+        color: #800000;
+        font-weight: 900;
+        font-size: 14px;
+        width: 100%;
+        text-align: left;
+      }
+    }
+  }
+  
+  /* .show {
+    transition: transform 0.5s ease-in-out;
+  } */
 
   .h1Div {
     width: 400px;
