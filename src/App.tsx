@@ -5,7 +5,7 @@ import './App.css';
 
 export default function App() {
   const [place, setPlace] = useState<string>('');
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [coordinates, setCoordinates] = useState({ lat: 10, lng: 10 });
