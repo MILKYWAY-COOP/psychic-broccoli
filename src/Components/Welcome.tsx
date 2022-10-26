@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { WelcomeContainer } from './Styles/Welcome.styled';
 
 interface WelcomeProps {
@@ -6,14 +7,17 @@ interface WelcomeProps {
   isError: boolean;
   place: string;
   isLoading: boolean;
+  loaded: boolean;
 }
 
 export const Welcome = ({
   setPlace,
   isError,
   place,
-  isLoading
+  isLoading,
+  loaded
 }: WelcomeProps) => {
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null!);
   const errorRef = useRef<HTMLParagraphElement>(null!);
 
@@ -23,13 +27,21 @@ export const Welcome = ({
   };
 
   useEffect(() => {
-    if (isError && isLoading === false) {
+    if (isError === true) {
       errorRef.current.classList.add('show');
       errorRef.current.style.transform = 'translateY(110%)';
-    } else {
-      errorRef.current.classList.remove('show');
     }
-  }, [isError, isLoading]);
+    if (isError === false) {
+      errorRef.current.classList.remove('show');
+      errorRef.current.style.transform = 'translateY(0)';
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (!isLoading && !isError && loaded) {
+      navigate('/movies');
+    }
+  }, [isLoading, isError, loaded, navigate]);
 
   return (
     <WelcomeContainer>
@@ -42,6 +54,7 @@ export const Welcome = ({
           </p>
         </div>
       </div>
+
       <div className='h1Div'>
         <h1>
           Give us a city name and we will reply with all the movies produced
