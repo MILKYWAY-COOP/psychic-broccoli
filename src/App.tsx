@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { Movies, Welcome, Loading } from './Components';
 import { ninjasKey, imbdKey } from './auth';
 import './App.css';
@@ -13,8 +14,10 @@ export default function App() {
 
   useEffect(() => {
     const getInfo = async () => {
-      if (isLoading || place === '') return;
+      if (place === '') return;
       setIsLoading(true);
+      setLoaded(false);
+
       const locationData = await fetch(
         `https://api.api-ninjas.com/v1/city?name=${place}`,
         {
@@ -24,11 +27,14 @@ export default function App() {
           }
         }
       );
+
       const dataJson = await locationData.json();
+
+      dataJson.length === 0 ? setIsError(true) : setIsError(false);
+
       if (dataJson?.length === 0) {
         setIsError(true);
         setIsLoading(false);
-        setLoaded(false);
         return;
       }
 
@@ -41,53 +47,64 @@ export default function App() {
         `https://imdb-api.com/API/AdvancedSearch/${imbdKey}?locations=${place}`
       );
       const movieDataJson = await movieData.json();
+      movieDataJson.errorMessage === 'Invalid API Key'
+        ? setIsError(true)
+        : setIsError(false);
       setMovies(movieDataJson.results);
 
       if (movieDataJson?.results?.length === 0) {
         setIsError(true);
-      } else {
-        setIsError(false);
       }
       setIsLoading(false);
       setLoaded(true);
     };
     getInfo();
-  }, [place, isLoading]);
+  }, [place]);
 
-  if (isLoading && loaded === false) {
+  if (isLoading) {
     return <Loading />;
-  } else {
-    return (
-      <div className='App'>
-        {loaded ? (
-          <Movies
-            coordinates={coordinates}
-            place={place}
-            movies={movies}
-            setLoaded={setLoaded}
-          />
-        ) : (
-          <Welcome
-            setPlace={setPlace}
-            isError={isError}
-            place={place}
-            isLoading={isLoading}
-          />
-        )}
-        <div className='footer'>
-          <p>
-            &copy;2022. A{' '}
-            <a
-              href='https://milkyway-coop.github.io/'
-              target='_blank'
-              rel='noopener noreferrer'
-            >
-              MILKYWAY
-            </a>{' '}
-            PRODUCTION. All rights reserved
-          </p>
-        </div>
-      </div>
-    );
   }
+
+  return (
+    <div className='App'>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <Welcome
+              setPlace={setPlace}
+              isError={isError}
+              place={place}
+              isLoading={isLoading}
+              loaded={loaded}
+            />
+          }
+        />
+        <Route
+          path='/movies'
+          element={
+            <Movies
+              coordinates={coordinates}
+              place={place}
+              movies={movies}
+              setLoaded={setLoaded}
+            />
+          }
+        />
+      </Routes>
+      <div className='footer'>
+        <p>
+          &copy;2022. A{' '}
+          <a
+            href='https://milkyway-coop.github.io/'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            MILKYWAY
+          </a>{' '}
+          PRODUCTION. All rights reserved
+        </p>
+      </div>
+    </div>
+  );
 }
